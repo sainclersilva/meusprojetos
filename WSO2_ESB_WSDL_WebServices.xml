@@ -1,0 +1,291 @@
+--------------------------------------
+--WSO2 ENTERPRISE INTEGRATOR - CARBON
+--Version 6.4.0
+--------------------------------------
+
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ns0="http://ws.wso2.org/dataservice" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="com.ssilva" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="com.ssilva">
+   <wsdl:documentation/>
+   <wsdl:types>
+      <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.wso2.org/dataservice">
+         <xs:element name="DataServiceFault">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="current_params" type="xs:string"/>
+                  <xs:element name="current_request_name" type="xs:string"/>
+                  <xs:element name="nested_exception" type="xs:string"/>
+                  <xs:element name="source_data_service">
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element name="location" type="xs:string"/>
+                           <xs:element name="default_namespace" type="xs:string"/>
+                           <xs:element name="description" type="xs:string"/>
+                           <xs:element name="data_service_name" type="xs:string"/>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+                  <xs:element name="ds_code" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="REQUEST_STATUS" type="xs:string"/>
+         <xs:element name="DATA_SERVICE_RESPONSE">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:any minOccurs="0"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+      <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="com.ssilva">
+         <xs:element name="op_topfive">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="Users_Count" type="ns1:Users_Count"/>
+         <xs:complexType name="Users_Count">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="User" type="ns1:User"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="User">
+            <xs:sequence>
+               <xs:element name="user_mention" nillable="true" type="xs:string"/>
+               <xs:element name="followers_count" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="op_count_hashtags">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="Hashtags" type="ns1:Hashtags"/>
+         <xs:complexType name="Hashtags">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="Hashtag_Count" type="ns1:Hashtag_Count"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="Hashtag_Count">
+            <xs:sequence>
+               <xs:element name="count_hashtag" nillable="true" type="xs:string"/>
+               <xs:element name="hashtag" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="_get_topfive">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="_get_counthashtags">
+            <xs:complexType>
+               <xs:sequence/>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="_get_counthashtagsRequest">
+      <wsdl:part name="parameters" element="ns1:_get_counthashtags"/>
+   </wsdl:message>
+   <wsdl:message name="_get_counthashtagsResponse">
+      <wsdl:part name="parameters" element="ns1:Hashtags"/>
+   </wsdl:message>
+   <wsdl:message name="DataServiceFault">
+      <wsdl:part name="parameters" element="ns0:DataServiceFault"/>
+   </wsdl:message>
+   <wsdl:message name="op_topfiveRequest">
+      <wsdl:part name="parameters" element="ns1:op_topfive"/>
+   </wsdl:message>
+   <wsdl:message name="op_topfiveResponse">
+      <wsdl:part name="parameters" element="ns1:Users_Count"/>
+   </wsdl:message>
+   <wsdl:message name="op_count_hashtagsRequest">
+      <wsdl:part name="parameters" element="ns1:op_count_hashtags"/>
+   </wsdl:message>
+   <wsdl:message name="op_count_hashtagsResponse">
+      <wsdl:part name="parameters" element="ns1:Hashtags"/>
+   </wsdl:message>
+   <wsdl:message name="_get_topfiveRequest">
+      <wsdl:part name="parameters" element="ns1:_get_topfive"/>
+   </wsdl:message>
+   <wsdl:message name="_get_topfiveResponse">
+      <wsdl:part name="parameters" element="ns1:Users_Count"/>
+   </wsdl:message>
+   <wsdl:portType name="TopFiveDataServicePortType">
+      <wsdl:operation name="_get_counthashtags">
+         <wsdl:documentation>                                    Retorna a quantidade de hashtags.&#xd;                                    </wsdl:documentation>
+         <wsdl:input message="ns1:_get_counthashtagsRequest" wsaw:Action="urn:_get_counthashtags"/>
+         <wsdl:output message="ns1:_get_counthashtagsResponse" wsaw:Action="urn:_get_counthashtagsResponse"/>
+         <wsdl:fault message="ns1:DataServiceFault" name="DataServiceFault" wsaw:Action="urn:_get_counthashtagsDataServiceFault"/>
+      </wsdl:operation>
+      <wsdl:operation name="op_topfive">
+         <wsdl:documentation>busca os cinco usuarios com mais seguidores.                                                                        &#xd;                                    </wsdl:documentation>
+         <wsdl:input message="ns1:op_topfiveRequest" wsaw:Action="urn:op_topfive"/>
+         <wsdl:output message="ns1:op_topfiveResponse" wsaw:Action="urn:op_topfiveResponse"/>
+         <wsdl:fault message="ns1:DataServiceFault" name="DataServiceFault" wsaw:Action="urn:op_topfiveDataServiceFault"/>
+      </wsdl:operation>
+      <wsdl:operation name="op_count_hashtags">
+         <wsdl:documentation>                                    Retorna q quantidade de menções por hashtag&#xd;                                    </wsdl:documentation>
+         <wsdl:input message="ns1:op_count_hashtagsRequest" wsaw:Action="urn:op_count_hashtags"/>
+         <wsdl:output message="ns1:op_count_hashtagsResponse" wsaw:Action="urn:op_count_hashtagsResponse"/>
+         <wsdl:fault message="ns1:DataServiceFault" name="DataServiceFault" wsaw:Action="urn:op_count_hashtagsDataServiceFault"/>
+      </wsdl:operation>
+      <wsdl:operation name="_get_topfive">
+         <wsdl:documentation/>
+         <wsdl:input message="ns1:_get_topfiveRequest" wsaw:Action="urn:_get_topfive"/>
+         <wsdl:output message="ns1:_get_topfiveResponse" wsaw:Action="urn:_get_topfiveResponse"/>
+         <wsdl:fault message="ns1:DataServiceFault" name="DataServiceFault" wsaw:Action="urn:_get_topfiveDataServiceFault"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="TopFiveDataServiceSOAP11Binding" type="ns1:TopFiveDataServicePortType">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="_get_counthashtags">
+         <soap:operation soapAction="urn:_get_counthashtags" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="DataServiceFault">
+            <soap:fault use="literal" name="DataServiceFault"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="op_topfive">
+         <soap:operation soapAction="urn:op_topfive" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="DataServiceFault">
+            <soap:fault use="literal" name="DataServiceFault"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="op_count_hashtags">
+         <soap:operation soapAction="urn:op_count_hashtags" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="DataServiceFault">
+            <soap:fault use="literal" name="DataServiceFault"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="_get_topfive">
+         <soap:operation soapAction="urn:_get_topfive" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="DataServiceFault">
+            <soap:fault use="literal" name="DataServiceFault"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="TopFiveDataServiceSOAP12Binding" type="ns1:TopFiveDataServicePortType">
+      <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="_get_counthashtags">
+         <soap12:operation soapAction="urn:_get_counthashtags" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="DataServiceFault">
+            <soap12:fault use="literal" name="DataServiceFault"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="op_topfive">
+         <soap12:operation soapAction="urn:op_topfive" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="DataServiceFault">
+            <soap12:fault use="literal" name="DataServiceFault"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="op_count_hashtags">
+         <soap12:operation soapAction="urn:op_count_hashtags" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="DataServiceFault">
+            <soap12:fault use="literal" name="DataServiceFault"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="_get_topfive">
+         <soap12:operation soapAction="urn:_get_topfive" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="DataServiceFault">
+            <soap12:fault use="literal" name="DataServiceFault"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="TopFiveDataServiceHttpBinding" type="ns1:TopFiveDataServicePortType">
+      <http:binding verb="POST"/>
+      <wsdl:operation name="_get_counthashtags">
+         <http:operation location="/counthashtags"/>
+         <wsdl:input>
+            <mime:content type="text/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="text/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="op_topfive">
+         <http:operation location="op_topfive"/>
+         <wsdl:input>
+            <mime:content type="text/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="text/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="op_count_hashtags">
+         <http:operation location="op_count_hashtags"/>
+         <wsdl:input>
+            <mime:content type="text/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="text/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="_get_topfive">
+         <http:operation location="/topfive"/>
+         <wsdl:input>
+            <mime:content type="text/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="text/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="TopFiveDataService">
+      <wsdl:port name="SOAP11Endpoint" binding="ns1:TopFiveDataServiceSOAP11Binding">
+         <soap:address location="http://Sainclers-MBP:8280/services/TopFiveDataService.SOAP11Endpoint"/>
+      </wsdl:port>
+      <wsdl:port name="SOAP12Endpoint" binding="ns1:TopFiveDataServiceSOAP12Binding">
+         <soap12:address location="http://Sainclers-MBP:8280/services/TopFiveDataService.SOAP12Endpoint"/>
+      </wsdl:port>
+      <wsdl:port name="HTTPEndpoint" binding="ns1:TopFiveDataServiceHttpBinding">
+         <http:address location="http://Sainclers-MBP:8280/services/TopFiveDataService.HTTPEndpoint"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,39 @@
+--------------------------------------
+--WSO2 ENTERPRISE INTEGRATOR - CARBON
+--Version 6.4.0
+--------------------------------------
+
+<data name="TopFiveDataService" serviceNamespace="com.ssilva" transports="http">
+   <config enableOData="false" id="ds_topfive">
+      <property name="carbon_datasource_name">PDI_TWITTER</property>
+   </config>
+   <query id="vw_mais_seguidores" useConfig="ds_topfive">
+      <sql>select user_mention,followers_count from vw_mais_seguidores</sql>
+      <result element="Users_Count" rowName="User">
+         <element column="user_mention" name="user_mention" xsdType="string"/>
+         <element column="followers_count" name="followers_count" xsdType="string"/>
+      </result>
+   </query>
+   <query id="vw_count_hashtag" useConfig="ds_topfive">
+      <sql>select count_hashtag, hashtag from vw_count_hashtag</sql>
+      <result element="Hashtags" rowName="Hashtag_Count">
+         <element column="count_hashtag" name="count_hashtag" xsdType="string"/>
+         <element column="hashtag" name="hashtag" xsdType="string"/>
+      </result>
+   </query>
+   <operation name="op_topfive">
+      <description>busca os cinco usuarios com mais seguidores.                                                                        &#xd;                                    </description>
+      <call-query href="vw_mais_seguidores"/>
+   </operation>
+   <operation name="op_count_hashtags">
+      <description>                                    Retorna q quantidade de menções por hashtag&#xd;                                    </description>
+      <call-query href="vw_count_hashtag"/>
+   </operation>
+   <resource method="GET" path="/topfive">
+      <call-query href="vw_mais_seguidores"/>
+   </resource>
+   <resource method="GET" path="/counthashtags">
+      <description>                                    Retorna a quantidade de hashtags.&#xd;                                    </description>
+      <call-query href="vw_count_hashtag"/>
+   </resource>
+</data>
