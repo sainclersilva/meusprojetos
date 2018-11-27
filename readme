@@ -1,0 +1,8 @@
+Para executar este projeto são necessários:
+1. Pentaho data Integrator 7.1
+2. MySql 8
+3. WSO2 Enterprise Integrator
+4. WSO2 Carbon
+5. WSO2 Data Services Server
+6. Twitter API
+7. Java jdk 1.8
